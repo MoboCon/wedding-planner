@@ -1,21 +1,18 @@
-// FindLocation.jsx – Versiune mai dezvoltată, cu city filter, rating filter, recenzii (rating la recenzie), slideshow, favorite și contact
-
 import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaArrowRight, FaStar } from 'react-icons/fa';
 
-// Mock Data (exemplu)
 const mockLocations = [
   {
     id: 1,
     name: 'Restaurant Elegant',
     city: 'București',
-    baseRating: 4.5, // rating inițial
+    baseRating: 4.5,
     price: '$$$',
     images: [
       'https://via.placeholder.com/600x300?text=Loc+1.1',
       'https://via.placeholder.com/600x300?text=Loc+1.2',
     ],
-    reviews: [], // { text, date, userRating }
+    reviews: [],
   },
   {
     id: 2,
@@ -45,7 +42,7 @@ const mockLocations = [
 
 export default function FindLocation() {
   const [locations, setLocations] = useState([]);
-  const [slideIndex, setSlideIndex] = useState({}); 
+  const [slideIndex, setSlideIndex] = useState({});
   const [reviewText, setReviewText] = useState('');
   const [reviewUserRating, setReviewUserRating] = useState(0);
   const [favorites, setFavorites] = useState(() => {
@@ -55,12 +52,10 @@ export default function FindLocation() {
   const [contactOpen, setContactOpen] = useState(null);
   const [messageText, setMessageText] = useState('');
 
-  // Filtre
   const [search, setSearch] = useState('');
   const [cityFilter, setCityFilter] = useState('Orice oraș');
-  const [sortBy, setSortBy] = useState('ratingDesc'); // ratingDesc, ratingAsc, nameAsc, nameDesc
+  const [sortBy, setSortBy] = useState('ratingDesc');
 
-  // Citi mock data + recenzii salvate
   useEffect(() => {
     const savedReviews = localStorage.getItem('loc_adv_reviews');
     let initData = JSON.parse(JSON.stringify(mockLocations));
@@ -75,7 +70,6 @@ export default function FindLocation() {
     setLocations(initData);
   }, []);
 
-  // Salvezi recenziile
   const saveReviews = (updated) => {
     const obj = {};
     updated.forEach((loc) => {
@@ -84,13 +78,13 @@ export default function FindLocation() {
     localStorage.setItem('loc_adv_reviews', JSON.stringify(obj));
   };
 
-  // Slideshow
   const handleNextSlide = (id) => {
     setSlideIndex((prev) => ({
       ...prev,
       [id]: prev[id] !== undefined ? prev[id] + 1 : 1,
     }));
   };
+
   const handlePrevSlide = (id) => {
     setSlideIndex((prev) => ({
       ...prev,
@@ -98,7 +92,6 @@ export default function FindLocation() {
     }));
   };
 
-  // Adaugi recenzie cu rating
   const handleAddReview = (locId) => {
     if (!reviewText.trim() || !reviewUserRating) return;
     const newRev = {
@@ -121,7 +114,6 @@ export default function FindLocation() {
     setReviewUserRating(0);
   };
 
-  // Favorite
   const toggleFavorite = (locId) => {
     let newFav;
     if (favorites.includes(locId)) {
@@ -133,13 +125,6 @@ export default function FindLocation() {
     localStorage.setItem('fav_locations_adv', JSON.stringify(newFav));
   };
 
-  // Contact
-  const handleOpenContact = (id) => {
-    setContactOpen(id);
-    setMessageText('');
-  };
-
-  // Filtrare + sort
   const cityList = ['Orice oraș', 'București', 'Cluj', 'Timișoara', 'Oradea', 'Iași'];
   let filtered = [...locations].filter((loc) =>
     loc.name.toLowerCase().includes(search.toLowerCase())
@@ -161,15 +146,12 @@ export default function FindLocation() {
     if (!loc.reviews.length) return loc.baseRating;
     const sumUserRatings = loc.reviews.reduce((acc, r) => acc + (r.userRating || 0), 0);
     const total = loc.reviews.length;
-    // Combinarea ratingului de bază cu media userRating, după cum dorești
     return (loc.baseRating + sumUserRatings / total) / 2;
   }
 
   return (
     <div className="min-h-screen p-6 bg-pink-50">
       <h1 className="text-3xl font-bold text-pink-700 mb-6">Find Location Avansat</h1>
-
-      {/* Filtre */}
       <div className="flex flex-wrap gap-4 mb-4">
         <input
           type="text"
@@ -200,8 +182,6 @@ export default function FindLocation() {
           <option value="nameDesc">Nume Z-A</option>
         </select>
       </div>
-
-      {/* Grid Locații */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((loc) => {
           const idx = slideIndex[loc.id] || 0;
@@ -237,7 +217,6 @@ export default function FindLocation() {
                 {finalRating}
               </div>
               <p className="text-gray-600">Preț: {loc.price}</p>
-              {/* Butoane */}
               <div className="flex gap-2 mt-4">
                 <button
                   onClick={() => toggleFavorite(loc.id)}
@@ -254,7 +233,6 @@ export default function FindLocation() {
                   Contactează
                 </button>
               </div>
-              {/* Recenzii */}
               <div className="mt-4">
                 <h3 className="text-sm font-bold text-pink-600">Recenzii:</h3>
                 <ul className="max-h-16 overflow-auto text-sm text-gray-700 border p-2 rounded">
@@ -293,8 +271,6 @@ export default function FindLocation() {
                   </button>
                 </div>
               </div>
-
-              {/* Contact Popup */}
               {contactOpen === loc.id && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                   <div className="bg-white p-4 rounded shadow w-full max-w-md">

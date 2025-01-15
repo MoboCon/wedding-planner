@@ -37,27 +37,28 @@ function SeatPlanner() {
     setOffsetY(dy);
   };
 
-  const handleMouseMove = (e) => {
-    if (draggingId !== null) {
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-      const newX = mouseX - offsetX;
-      const newY = mouseY - offsetY;
-      setTables((prev) =>
-        prev.map((t) =>
-          t.id === draggingId ? { ...t, x: newX, y: newY } : t
-        )
-      );
-    }
-  };
-
-  const handleMouseUp = () => {
-    setDraggingId(null);
-  };
-
   useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (draggingId !== null) {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const newX = mouseX - offsetX;
+        const newY = mouseY - offsetY;
+        setTables((prev) =>
+          prev.map((t) =>
+            t.id === draggingId ? { ...t, x: newX, y: newY } : t
+          )
+        );
+      }
+    };
+
+    const handleMouseUp = () => {
+      setDraggingId(null);
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);

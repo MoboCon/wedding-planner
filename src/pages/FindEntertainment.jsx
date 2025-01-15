@@ -75,18 +75,8 @@ export default function FindEntertainment() {
     return ((ent.baseRating + sumUserRatings / total) / 2).toFixed(1);
   };
 
-  const handleNextSlide = (id) => {
-    setSlideIndex((prev) => ({
-      ...prev,
-      [id]: prev[id] !== undefined ? prev[id] + 1 : 1,
-    }));
-  };
-  const handlePrevSlide = (id) => {
-    setSlideIndex((prev) => ({
-      ...prev,
-      [id]: prev[id] !== undefined ? prev[id] - 1 : 0,
-    }));
-  };
+  
+  
 
   const handleAddReview = (entId) => {
     if (!reviewText.trim() || !reviewUserRating) return;
@@ -118,10 +108,7 @@ export default function FindEntertainment() {
     localStorage.setItem('fav_entertain_adv', JSON.stringify(newFav));
   };
 
-  const handleOpenContact = (id) => {
-    setContactOpen(id);
-    setMessageText('');
-  };
+  
 
   // Filtrare + sort
   const types = ['Orice tip', 'Magician', 'Dansatori', 'Stand-up', 'Comedie'];
@@ -226,12 +213,7 @@ export default function FindEntertainment() {
                 >
                   {isFav ? 'Remove Favorite' : 'Add Favorite'}
                 </button>
-                <button
-                  onClick={() => handleOpenContact(ent.id)}
-                  className="flex-1 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
-                >
-                  Contactează
-                </button>
+                
               </div>
 
               <div className="mt-4">

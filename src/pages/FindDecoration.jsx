@@ -1,4 +1,4 @@
-// FindDecoration.jsx – Similar
+// FindDecoration.jsx
 import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaArrowRight, FaStar } from 'react-icons/fa';
 
@@ -192,19 +192,13 @@ export default function FindDecoration() {
                   className="w-full h-40 object-cover rounded"
                 />
                 <button
-                  onClick={() => setSlideIndex((prev) => ({
-                    ...prev,
-                    [dec.id]: idx - 1,
-                  }))}
+                  onClick={() => handlePrevSlide(dec.id)}
                   className="absolute left-2 top-1/2 bg-pink-300 text-white rounded-full p-1 transform -translate-y-1/2 hover:bg-pink-400"
                 >
                   <FaArrowLeft />
                 </button>
                 <button
-                  onClick={() => setSlideIndex((prev) => ({
-                    ...prev,
-                    [dec.id]: idx + 1,
-                  }))}
+                  onClick={() => handleNextSlide(dec.id)}
                   className="absolute right-2 top-1/2 bg-pink-300 text-white rounded-full p-1 transform -translate-y-1/2 hover:bg-pink-400"
                 >
                   <FaArrowRight />
@@ -227,7 +221,7 @@ export default function FindDecoration() {
                   {isFav ? 'Remove Favorite' : 'Add Favorite'}
                 </button>
                 <button
-                  onClick={() => setContactOpen(dec.id)}
+                  onClick={() => handleOpenContact(dec.id)}
                   className="flex-1 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
                 >
                   Contactează

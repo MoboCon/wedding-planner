@@ -60,7 +60,6 @@ export default function FindPhotographer() {
   const [specFilter, setSpecFilter] = useState("Orice specializare");
   const [sortBy, setSortBy] = useState("ratingDesc");
 
-  // La montare, încărcăm recenzii
   useEffect(() => {
     const savedReviews = localStorage.getItem("photog_adv_reviews");
     let initData = JSON.parse(JSON.stringify(mockPhotographers));
@@ -83,25 +82,22 @@ export default function FindPhotographer() {
     localStorage.setItem("photog_adv_reviews", JSON.stringify(obj));
   };
 
-  const handleNextSlide = (id) => {
+  const handleNextSlide = (phId) => {
     setSlideIndex((prev) => ({
       ...prev,
-      [id]: prev[id] !== undefined ? prev[id] + 1 : 1,
+      [phId]: (prev[phId] || 0) + 1,
     }));
   };
 
-  const handlePrevSlide = (id) => {
+  const handlePrevSlide = (phId) => {
     setSlideIndex((prev) => ({
       ...prev,
-      [id]: prev[id] !== undefined ? prev[id] - 1 : 0,
+      [phId]: (prev[phId] || 0) - 1,
     }));
   };
 
-  const getPhotographerRating = (ph) => {
-    if (!ph.reviews.length) return ph.baseRating;
-    const sumUserRatings = ph.reviews.reduce((acc, r) => acc + (r.userRating || 0), 0);
-    const total = ph.reviews.length;
-    return ((ph.baseRating + sumUserRatings / total) / 2).toFixed(1);
+  const handleOpenContact = (phId) => {
+    setContactOpen(phId);
   };
 
   const handleAddReview = (phId) => {
@@ -134,9 +130,11 @@ export default function FindPhotographer() {
     localStorage.setItem("fav_photographers_advanced", JSON.stringify(newFav));
   };
 
-  const handleOpenContact = (id) => {
-    setContactOpen(id);
-    setMessageText("");
+  const getPhotographerRating = (ph) => {
+    if (!ph.reviews.length) return ph.baseRating;
+    const sumUserRatings = ph.reviews.reduce((acc, r) => acc + (r.userRating || 0), 0);
+    const total = ph.reviews.length;
+    return ((ph.baseRating + sumUserRatings / total) / 2).toFixed(1);
   };
 
   // Filtrare + sort
@@ -160,7 +158,6 @@ export default function FindPhotographer() {
   return (
     <div className="min-h-screen p-6 bg-pink-50">
       <h1 className="text-3xl font-bold text-pink-700 mb-6">Find Photographer</h1>
-      {/* Filtre */}
       <div className="flex flex-wrap gap-4 mb-4">
         <input
           type="text"
@@ -191,7 +188,6 @@ export default function FindPhotographer() {
           <option value="nameDesc">Nume Z-A</option>
         </select>
       </div>
-      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((ph) => {
           const idx = slideIndex[ph.id] || 0;
@@ -208,19 +204,13 @@ export default function FindPhotographer() {
                   className="w-full h-40 object-cover rounded"
                 />
                 <button
-                  onClick={() => setSlideIndex((prev) => ({
-                    ...prev,
-                    [ph.id]: idx - 1,
-                  }))}
+                  onClick={() => handlePrevSlide(ph.id)}
                   className="absolute left-2 top-1/2 bg-pink-300 text-white rounded-full p-1 transform -translate-y-1/2 hover:bg-pink-400"
                 >
                   <FaArrowLeft />
                 </button>
                 <button
-                  onClick={() => setSlideIndex((prev) => ({
-                    ...prev,
-                    [ph.id]: idx + 1,
-                  }))}
+                  onClick={() => handleNextSlide(ph.id)}
                   className="absolute right-2 top-1/2 bg-pink-300 text-white rounded-full p-1 transform -translate-y-1/2 hover:bg-pink-400"
                 >
                   <FaArrowRight />
@@ -245,7 +235,7 @@ export default function FindPhotographer() {
                   {isFav ? "Remove Favorite" : "Add Favorite"}
                 </button>
                 <button
-                  onClick={() => setContactOpen(ph.id)}
+                  onClick={() => handleOpenContact(ph.id)}
                   className="flex-1 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
                 >
                   Contactează
