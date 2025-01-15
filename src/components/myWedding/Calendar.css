@@ -1,0 +1,36 @@
+/* Calendar.css */
+
+/* Întregul container react-calendar */
+.react-calendar {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Zilele să fie un pic mai aerisite */
+  .react-calendar__tile {
+    height: 2.5rem;
+  }
+  
+  /* Hover la o zi */
+  .react-calendar__tile:hover {
+    background: #ffe0e0;
+  }
+  
+  /* Ziua selectată */
+  .react-calendar__tile--active {
+    background: #ff9db3 !important;
+    color: white;
+  }
+  
+  /* Butoane next/prev lună */
+  .react-calendar__navigation button {
+    min-width: 2.5rem;
+    background: #ffb3c6;
+    border: none;
+    color: white;
+    font-weight: bold;
+  }
+  

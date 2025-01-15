@@ -1,0 +1,52 @@
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Exemplu de font elegant pentru titluri (serif) și font simplu (sans-serif) */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat&display=swap');
+
+:root {
+  --color-primary: #f4e1e6; /* pastel roz-deschis */
+  --color-secondary: #efdfe7; /* pastel mov-lila */
+  --color-accent: #b89fb2; /* accente mai inchise */
+  --color-dark: #3f3d56; /* text mai inchis */
+  --color-light: #fff;
+}
+
+/* Fonduri personalizate */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--color-primary);
+  color: var(--color-dark);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: var(--color-dark);
+}
+
+/* Ex: un pattern pastel (optional) */
+.bg-pastel-pattern {
+  background: linear-gradient(135deg, #f8f3f9 0%, #f7edf4 100%);
+}
+
+/* Link standard */
+a {
+  text-decoration: none;
+  color: var(--color-dark);
+}
+
+/* Clasa exemplu pentru un buton pastel */
+.btn-pastel {
+  background-color: var(--color-accent);
+  color: var(--color-light);
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  transition: background-color 0.3s ease;
+}
+.btn-pastel:hover {
+  background-color: #a48ea3; /* putin mai inchis */
+}
+
+/* Alte customizari... */
